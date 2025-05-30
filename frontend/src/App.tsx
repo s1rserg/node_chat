@@ -12,7 +12,9 @@ function App() {
     const socket = socketRef.current;
     if (!socket) return;
 
-    localStorage.setItem("username", "guest");
+    if (!localStorage.getItem("username")) {
+      localStorage.setItem("username", "guest");
+    }
 
     socket.on("username", (data) => {
       localStorage.setItem("username", data);

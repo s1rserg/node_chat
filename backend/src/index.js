@@ -102,8 +102,18 @@ io.on('connection', (socket) => {
     }
   });
 
-  socket.on('room-message', ({ roomId, message, timestamp }) => {
+  socket.on('room-message', async ({ roomId, message, timestamp }) => {
     const author = users[socket.id];
+    if (!roomMessages[roomId]) {
+      return;
+    }
+
+    const socketsInRoom = await io.in(roomId).fetchSockets();
+    const isInRoom = socketsInRoom.some((s) => s.id === socket.id);
+
+    if (!isInRoom) {
+      return;
+    }
 
     roomMessages[roomId].push({ author, message, timestamp });
 

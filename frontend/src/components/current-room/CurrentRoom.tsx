@@ -44,7 +44,7 @@ export const CurrentRoom = () => {
     });
 
     return () => {
-      socket.emit("leave-room");
+      socket.emit("leave-room", chatId);
       socket.off("room-history");
       socket.off("join-error");
       socket.off("room-renamed");
@@ -117,7 +117,7 @@ export const CurrentRoom = () => {
       <div>
         <h3>Messages</h3>
         {messages.map((message) => (
-          <div key={message.timestamp}>
+          <div key={message.timestamp + message.author}>
             <p>{message.message}</p>
             <p>{message.author}</p>
             <p>{message.timestamp}</p>

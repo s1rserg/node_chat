@@ -19,7 +19,6 @@ export const Rooms = () => {
     const socket = socketRef.current;
     if (socket && newRoomName.trim() !== "") {
       socket.emit("create-room", newRoomName);
-      navigate(`chats/${newRoomName}`);
     }
   };
 
@@ -33,9 +32,12 @@ export const Rooms = () => {
       setRooms(data);
     });
 
+    socket.on("room-created", (data) => {
+      navigate(`chats/${data.roomId}`);
+    });
+
     return () => {
       socket.off("rooms-list");
-      socket.off("room-renamed");
     };
   }, [socketRef]);
 
