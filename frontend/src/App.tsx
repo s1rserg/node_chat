@@ -14,15 +14,9 @@ function App() {
 
     if (!localStorage.getItem("username")) {
       localStorage.setItem("username", "guest");
+    } else {
+      socket.emit("set-username", localStorage.getItem("username"));
     }
-
-    socket.on("username", (data) => {
-      localStorage.setItem("username", data);
-    });
-
-    return () => {
-      socket.off("username");
-    };
   }, [socketRef]);
 
   const handleChangeUsername = (event: FormEvent) => {

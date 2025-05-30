@@ -87,7 +87,6 @@ export const CurrentRoom = () => {
     const socket = socketRef.current;
     if (socket) {
       socket.emit("delete-room", chatId);
-      navigate(`/`);
     }
   };
 
